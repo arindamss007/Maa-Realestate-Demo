@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us | MAA AADARSH</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{poppins:['Poppins','sans-serif']},colors:{primary:'#0F172A',secondary:'#D4AF37'}}}}
+</script>
+<style>
+/* ── Smooth scrolling ── */
+html { scroll-behavior: smooth; }
+
+/* ── Top bar ── */
+.topbar-link { transition: color 0.2s; }
+.topbar-link:hover { color: #D4AF37; }
+
+/* ── Nav ── */
+.nav-link {
+  position: relative;
+  color: #0F172A;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #D4AF37;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+.nav-link:hover { color: #D4AF37; }
+.nav-link:hover::after { width: 100%; }
+
+/* ── Mobile menu ── */
+#mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.2s;
+}
+#mobile-menu.open { max-height: 320px; padding-top: 0.75rem; padding-bottom: 1rem; }
+
+/* ── Hero ── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,175,55,0.18);
+  border: 1px solid rgba(212,175,55,0.5);
+  color: #D4AF37;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(6px);
+}
+
+/* ── Search card ── */
+.search-select, .search-input {
+  border: 1.5px solid #e5e7eb;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  background: #fff;
+  color: #0F172A;
+}
+.search-select:focus, .search-input:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.15);
+}
+.search-btn {
+  background: #0F172A;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+}
+.search-btn:hover { background: #1e293b; transform: translateY(-1px); }
+.search-btn:active { transform: translateY(0); }
+
+/* ── Property cards ── */
+.prop-card {
+  transition: transform 0.28s cubic-bezier(.25,.8,.25,1), box-shadow 0.28s cubic-bezier(.25,.8,.25,1);
+  will-change: transform;
+}
+.prop-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(15,23,42,0.14);
+}
+.prop-card img {
+  transition: transform 0.4s ease;
+}
+.prop-card:hover img { transform: scale(1.04); }
+.prop-img-wrap { overflow: hidden; }
+
+/* ── Badge on card ── */
+.prop-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: #D4AF37;
+  color: #0F172A;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* ── View Details button ── */
+.view-btn {
+  background: #0F172A;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, letter-spacing 0.2s;
+  border: 2px solid transparent;
+}
+.view-btn:hover {
+  background: transparent;
+  color: #0F172A;
+  border-color: #0F172A;
+}
+
+/* ── Service cards ── */
+.service-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1.5px solid transparent;
+  cursor: default;
+}
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15,23,42,0.1);
+  border-color: rgba(212,175,55,0.35);
+}
+.service-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(212,175,55,0.12);
+  transition: background 0.2s;
+}
+.service-card:hover .service-icon { background: rgba(212,175,55,0.22); }
+
+/* ── Stats counter section ── */
+.stat-item { position: relative; }
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: rgba(255,255,255,0.15);
+}
+.stat-number {
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.counter-plus {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease 0.6s, transform 0.4s ease 0.6s;
+}
+.counter-plus.visible { opacity: 1; transform: translateY(0); }
+
+/* ── CTA section ── */
+.cta-btn {
+  display: inline-block;
+  background: #D4AF37;
+  color: #0F172A;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.cta-btn:hover {
+  background: #c9a22e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212,175,55,0.35);
+}
+.cta-btn:active { transform: translateY(0); }
+
+/* ── Back to top ── */
+#back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
+  background: #D4AF37;
+  color: #0F172A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 999;
+  box-shadow: 0 4px 16px rgba(212,175,55,0.4);
+}
+#back-to-top.show { opacity: 1; transform: translateY(0); }
+#back-to-top:hover { background: #c9a22e; }
+
+/* ── Footer social icons ── */
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.social-icon:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+  background: rgba(212,175,55,0.1);
+}
+
+/* ── Scroll reveal animation ── */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stat-animate {
+  animation: countUp 0.6s ease forwards;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .prop-card:hover, .prop-card:hover img,
+  .service-card:hover, .cta-btn:hover,
+  .search-btn:hover { transform: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body class="font-poppins bg-gray-50 text-gray-800">
+
+<!-- ══ TOP BAR ══ -->
+<div class="bg-primary text-white text-sm">
+  <div class="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center">
+    <div class="hidden md:flex gap-6">
+      <a href="tel:+919876543210" class="topbar-link flex items-center gap-2 text-gray-300">
+        <i class="fa fa-phone text-secondary text-xs"></i> +91 98765 43210
+      </a>
+      <a href="mailto:info@maadarsh.com" class="topbar-link flex items-center gap-2 text-gray-300">
+        <i class="fa fa-envelope text-secondary text-xs"></i> info@maadarsh.com
+      </a>
+    </div>
+    <div class="flex gap-3">
+      <a href="#" class="social-icon"><i class="fab fa-facebook-f text-xs"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-instagram text-xs"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-linkedin text-xs"></i></a>
+    </div>
+  </div>
+</div>
+
+<nav class="bg-white shadow sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+<a href="index.html" class="text-3xl font-bold text-primary">MAA<span class="text-secondary">AADARSH</span></a>
+<div class="hidden md:flex gap-8">
+<a href="index.html">Home</a>
+<a href="about.html" class="text-secondary font-semibold">About</a>
+<a href="services.html">Services</a>
+<a href="contact.html">Contact</a>
+<a href="admin/dashboard.html" class="bg-primary text-white px-5 py-2 rounded-full">Admin</a>
+</div>
+</div>
+</nav>
+
+<section class="relative h-[60vh] bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80')">
+<div class="absolute inset-0 bg-black/60"></div>
+<div class="relative h-full flex items-center justify-center text-center text-white">
+<div>
+<h1 class="text-6xl font-bold">About MAA AADARSH</h1>
+<p class="mt-4 text-xl">Helping families and businesses find the perfect property.</p>
+</div>
+</div>
+</section>
+
+<section class="py-20">
+<div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+<img class="rounded-3xl shadow-xl" src="https://images.unsplash.com/photo-1600585154084-4e5fe7c39198?auto=format&fit=crop&w=1200&q=80">
+<div>
+<h2 class="text-4xl font-bold text-primary mb-6">Who We Are</h2>
+<p class="text-gray-600 leading-8 mb-5">PrimeEstate is a modern real estate brokerage specializing in residential, commercial, rental, and investment properties. We combine local market expertise with personalized service to help buyers, sellers, landlords, and investors make informed decisions.</p>
+<p class="text-gray-600 leading-8">Our goal is to provide transparent guidance, verified listings, and end-to-end support throughout every property transaction.</p>
+</div>
+</div>
+</section>
+
+<section class="bg-white py-20">
+<div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+<div class="p-8 rounded-3xl shadow">
+<i class="fa-solid fa-bullseye text-4xl text-secondary"></i>
+<h3 class="text-2xl font-bold mt-5">Our Mission</h3>
+<p class="mt-4 text-gray-600">Deliver trusted real estate solutions with honesty, professionalism, and customer-first service.</p>
+</div>
+<div class="p-8 rounded-3xl shadow">
+<i class="fa-solid fa-eye text-4xl text-secondary"></i>
+<h3 class="text-2xl font-bold mt-5">Our Vision</h3>
+<p class="mt-4 text-gray-600">Become one of India's most trusted property advisors through innovation and transparency.</p>
+</div>
+<div class="p-8 rounded-3xl shadow">
+<i class="fa-solid fa-handshake text-4xl text-secondary"></i>
+<h3 class="text-2xl font-bold mt-5">Our Promise</h3>
+<p class="mt-4 text-gray-600">Verified listings, fair pricing, legal guidance, and exceptional customer support.</p>
+</div>
+</div>
+</section>
+
+<section class="py-20 bg-primary text-white">
+<div class="max-w-7xl mx-auto px-6">
+<h2 class="text-4xl font-bold text-center mb-14">Why Choose MAA AADARSH?</h2>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="text-center"><i class="fa-solid fa-shield-halved text-secondary text-4xl"></i><h4 class="mt-4 font-semibold text-xl">Verified Properties</h4></div>
+<div class="text-center"><i class="fa-solid fa-scale-balanced text-secondary text-4xl"></i><h4 class="mt-4 font-semibold text-xl">Transparent Deals</h4></div>
+<div class="text-center"><i class="fa-solid fa-file-signature text-secondary text-4xl"></i><h4 class="mt-4 font-semibold text-xl">Legal Assistance</h4></div>
+<div class="text-center"><i class="fa-solid fa-headset text-secondary text-4xl"></i><h4 class="mt-4 font-semibold text-xl">Dedicated Support</h4></div>
+</div>
+</div>
+</section>
+
+<section class="py-20">
+<div class="max-w-7xl mx-auto px-6">
+<h2 class="text-4xl font-bold text-center text-primary mb-12">Our Achievements</h2>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+<div><h3 class="text-5xl font-bold text-secondary">500+</h3><p class="mt-2">Properties Listed</p></div>
+<div><h3 class="text-5xl font-bold text-secondary">1200+</h3><p class="mt-2">Happy Clients</p></div>
+<div><h3 class="text-5xl font-bold text-secondary">25+</h3><p class="mt-2">Cities Covered</p></div>
+<div><h3 class="text-5xl font-bold text-secondary">15+</h3><p class="mt-2">Years Experience</p></div>
+</div>
+</div>
+</section>
+
+<section class="bg-secondary py-20">
+<div class="max-w-5xl mx-auto text-center px-6">
+<h2 class="text-5xl font-bold text-primary">Ready to Find Your Dream Property?</h2>
+<p class="mt-6 text-lg">Connect with our experts for personalized property recommendations.</p>
+<a href="contact.html" class="inline-block mt-8 bg-primary text-white px-8 py-4 rounded-full font-semibold">Contact Us</a>
+</div>
+</section>
+
+<footer class="bg-primary text-white py-10">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between">
+<div>
+<h3 class="text-3xl font-bold">MAA<span class="text-secondary">AADARSH</span></h3>
+<p class="mt-2 text-gray-300">Your trusted real estate partner.</p>
+</div>
+<div class="mt-6 md:mt-0 text-gray-300">
+<p>© 2026 MAA AADARSH. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+
+
+</body>
+</html>

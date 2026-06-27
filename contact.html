@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | MAA AADARSH</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{poppins:['Poppins','sans-serif']},colors:{primary:'#0F172A',secondary:'#D4AF37'}}}}
+</script>
+<style>
+html { scroll-behavior: smooth; }
+
+/* ── Top bar ── */
+.topbar-link { transition: color 0.2s; }
+.topbar-link:hover { color: #D4AF37; }
+
+/* ── Nav links ── */
+.nav-link {
+  position: relative;
+  color: #0F172A;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: #D4AF37;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+.nav-link:hover { color: #D4AF37; }
+.nav-link:hover::after { width: 100%; }
+.nav-link.active { color: #D4AF37; }
+.nav-link.active::after { width: 100%; }
+
+/* ── Mobile menu ── */
+#mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.2s;
+}
+#mobile-menu.open { max-height: 320px; padding-top: 0.75rem; padding-bottom: 1rem; }
+
+/* ── Form inputs ── */
+.form-field {
+  width: 100%;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #0F172A;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-field::placeholder { color: #9ca3af; }
+.form-field:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.15);
+}
+.form-field:hover:not(:focus) { border-color: #cbd5e1; }
+
+/* ── Submit button ── */
+.submit-btn {
+  width: 100%;
+  background: #0F172A;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, border-color 0.2s, color 0.2s;
+}
+.submit-btn:hover {
+  background: transparent;
+  color: #0F172A;
+  border-color: #0F172A;
+  transform: translateY(-1px);
+}
+.submit-btn:active { transform: translateY(0); }
+
+/* ── Success toast ── */
+#toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #0F172A;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Contact info cards ── */
+.info-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 25px;
+  border-radius: 14px;
+  border: 1.5px solid #f1f5f9;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  background: #fafafa;
+}
+.info-card:hover {
+  border-color: rgba(212,175,55,0.4);
+  box-shadow: 0 6px 20px rgba(15,23,42,0.07);
+  transform: translateX(4px);
+}
+.info-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(212,175,55,0.12);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.info-card:hover .info-icon { background: rgba(212,175,55,0.22); }
+
+/* ── CTA quick-action buttons ── */
+.wa-btn {
+  background: #D4AF37;
+  color: #0F172A;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.wa-btn:hover {
+  background: #c9a22e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212,175,55,0.35);
+}
+.call-btn {
+  border: 2px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-weight: 600;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.call-btn:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+  transform: translateY(-2px);
+}
+
+/* ── Social icons ── */
+.social-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.social-icon:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+  background: rgba(212,175,55,0.1);
+}
+
+/* ── Back to top ── */
+#back-to-top {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  width: 48px; height: 48px;
+  background: #D4AF37;
+  color: #0F172A;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 999;
+  box-shadow: 0 4px 16px rgba(212,175,55,0.4);
+  border: none;
+}
+#back-to-top.show { opacity: 1; transform: translateY(0); }
+#back-to-top:hover { background: #c9a22e; }
+
+/* ── Map wrapper ── */
+.map-wrap { border-radius: 20px; overflow: hidden; border: 1.5px solid #e5e7eb; }
+.map-wrap iframe { display: block; width: 100%; height: 320px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .info-card:hover, .wa-btn:hover, .call-btn:hover, .submit-btn:hover { transform: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body class="font-poppins bg-gray-50 text-gray-800">
+
+<!-- ══ TOP BAR ══ -->
+<div class="bg-primary text-white text-sm">
+  <div class="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center">
+    <div class="hidden md:flex gap-6">
+      <a href="tel:+919876543210" class="topbar-link flex items-center gap-2 text-gray-300">
+        <i class="fa fa-phone text-secondary text-xs"></i> +91 98765 43210
+      </a>
+      <a href="mailto:info@maadarsh.com" class="topbar-link flex items-center gap-2 text-gray-300">
+        <i class="fa fa-envelope text-secondary text-xs"></i> info@maadarsh.com
+      </a>
+    </div>
+    <div class="flex gap-3">
+      <a href="#" class="social-icon"><i class="fab fa-facebook-f text-xs"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-instagram text-xs"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-linkedin text-xs"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="sticky top-0 bg-white shadow-md z-50">
+  <div class="max-w-7xl mx-auto px-5 h-20 flex justify-between items-center">
+    <a href="index.html" class="text-3xl font-bold text-primary tracking-tight">MAA<span class="text-secondary">AADARSH</span></a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="contact.html" class="nav-link active">Contact</a>
+      <a href="admin/dashboard.html"
+         class="bg-primary text-white px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide
+                hover:bg-secondary hover:text-primary transition-all duration-200">Admin</a>
+    </div>
+
+    <!-- Hamburger -->
+    <button id="menu-toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu">
+      <span class="block w-6 h-0.5 bg-primary transition-all" id="bar1"></span>
+      <span class="block w-6 h-0.5 bg-primary transition-all" id="bar2"></span>
+      <span class="block w-6 h-0.5 bg-primary transition-all" id="bar3"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden px-5 bg-white border-t border-gray-100">
+    <a href="index.html" class="block py-2 text-primary font-medium hover:text-secondary transition-colors">Home</a>
+    <a href="about.html" class="block py-2 text-primary font-medium hover:text-secondary transition-colors">About</a>
+    <a href="services.html" class="block py-2 text-primary font-medium hover:text-secondary transition-colors">Services</a>
+    <a href="contact.html" class="block py-2 text-secondary font-semibold">Contact</a>
+    <a href="admin/dashboard.html" class="inline-block mt-2 mb-2 bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold">Admin</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="relative h-[52vh] bg-cover bg-center"
+         style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80')">
+  <div class="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30"></div>
+  <div class="relative h-full flex items-center justify-center text-center text-white px-5">
+    <div data-aos="fade-up" data-aos-duration="800">
+      <span class="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/50 text-secondary
+                   px-5 py-2 rounded-full text-sm font-medium tracking-wide mb-5">
+        <i class="fa fa-headset text-xs"></i> We're Here to Help
+      </span>
+      <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">Contact <span class="text-secondary">Us</span></h1>
+      <p class="mt-4 text-lg text-gray-200 max-w-xl mx-auto">
+        Reach out to our property experts and get a response within 24 hours.
+      </p>
+      <!-- Breadcrumb -->
+      <div class="flex items-center justify-center gap-2 mt-6 text-sm text-gray-400">
+        <a href="index.html" class="hover:text-secondary transition-colors">Home</a>
+        <i class="fa fa-chevron-right text-xs text-gray-500"></i>
+        <span class="text-secondary">Contact</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MAIN CONTENT ══ -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-12">
+
+    <!-- ── Contact Form ── -->
+    <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10" data-aos="fade-right" data-aos-duration="700">
+      <span class="text-secondary font-semibold text-xs uppercase tracking-widest">Get in touch</span>
+      <h2 class="text-3xl font-bold text-primary mt-2 mb-2">Send Us a Message</h2>
+      <p class="text-gray-400 text-sm mb-8">Fill in the form below and we'll get back to you shortly.</p>
+
+      <form id="contact-form" class="space-y-2" novalidate>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Full Name *</label>
+            <input id="f-name" type="text" placeholder="Ravi Sharma" class="form-field" required>
+            <p class="error-msg text-red-500 text-xs mt-1 hidden">Please enter your name.</p>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Phone *</label>
+            <input id="f-phone" type="tel" placeholder="+91 98765 43210" class="form-field" required>
+            <p class="error-msg text-red-500 text-xs mt-1 hidden">Please enter a valid phone number.</p>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Email Address *</label>
+          <input id="f-email" type="email" placeholder="ravi@example.com" class="form-field" required>
+          <p class="error-msg text-red-500 text-xs mt-1 hidden">Please enter a valid email.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Service Interested In</label>
+          <select id="f-service" class="form-field">
+            <option value="">Select a service…</option>
+            <option>Buy Property</option>
+            <option>Sell Property</option>
+            <option>Rent Property</option>
+            <option>Commercial Property</option>
+            <option>Property Consultation</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Message *</label>
+          <textarea id="f-msg" rows="5" placeholder="Tell us about what you're looking for…" class="form-field resize-none" required></textarea>
+          <p class="error-msg text-red-500 text-xs mt-1 hidden">Please write a short message.</p>
+        </div>
+
+        <button type="submit" class="submit-btn mt-2">
+          <span id="btn-text"><i class="fa fa-paper-plane mr-2"></i> Send Message</span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- ── Right column ── -->
+    <div class="space-y-8" data-aos="fade-left" data-aos-duration="700">
+
+      <!-- Contact info -->
+      <div class="bg-white rounded-3xl shadow-lg p-8">
+        <span class="text-secondary font-semibold text-xs uppercase tracking-widest">Reach us</span>
+        <h3 class="text-2xl font-bold text-primary mt-2 mb-6">Contact Information</h3>
+
+        <div class="space-y-12">
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fa-solid fa-location-dot text-secondary text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-primary text-sm">Office Address</h4>
+              <p class="text-gray-500 text-sm mt-0.5 leading-relaxed">123 Business Avenue, Vadodara,<br>Gujarat 390001, India</p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fa-solid fa-phone text-secondary text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-primary text-sm">Phone</h4>
+              <a href="tel:+919876543210" class="text-gray-500 text-sm mt-0.5 hover:text-secondary transition-colors block">
+                +91 98765 43210
+              </a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fa-solid fa-envelope text-secondary text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-primary text-sm">Email</h4>
+              <a href="mailto:info@maadarsh.com" class="text-gray-500 text-sm mt-0.5 hover:text-secondary transition-colors block">
+                info@maadarsh.com
+              </a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">
+              <i class="fa-solid fa-clock text-secondary text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-primary text-sm">Working Hours</h4>
+              <p class="text-gray-500 text-sm mt-0.5">Mon – Sat &nbsp;·&nbsp; 9:00 AM – 7:00 PM</p>
+              <p class="text-xs text-gray-400 mt-0.5">Sunday: Closed</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ QUICK CTA BANNER ══ -->
+<section class="max-w-7xl mx-auto px-5 pb-20" data-aos="fade-up">
+  <div class="bg-primary rounded-3xl text-white px-8 md:px-14 py-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+    <!-- decorative dot grid -->
+    <div class="absolute inset-0 opacity-5"
+         style="background-image: radial-gradient(circle, #D4AF37 1px, transparent 1px); background-size: 36px 36px;"></div>
+    <div class="relative">
+      <span class="text-secondary font-semibold text-xs uppercase tracking-widest">Need help now?</span>
+      <h3 class="text-2xl md:text-3xl font-bold mt-1">Need Immediate Assistance?</h3>
+      <p class="mt-2 text-gray-300 text-sm">Our property experts are available Mon–Sat, 9 AM to 7 PM.</p>
+    </div>
+    <div class="relative flex flex-wrap justify-center gap-4 flex-shrink-0">
+      <a href="https://wa.me/919876543210" target="_blank"
+         class="wa-btn inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm">
+        <i class="fab fa-whatsapp text-base"></i> WhatsApp Us
+      </a>
+      <a href="tel:+919876543210"
+         class="call-btn inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold">
+        <i class="fa-solid fa-phone text-sm"></i> Call Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="bg-primary text-white pt-14 pb-8">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
+
+      <div>
+        <h3 class="text-3xl font-bold">MAA<span class="text-secondary">AADARSH</span></h3>
+        <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+          Your trusted real estate partner across India. We turn property dreams into reality.
+        </p>
+        <div class="flex gap-3 mt-5">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f text-xs"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram text-xs"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-linkedin text-xs"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-whatsapp text-xs"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Quick Links</h4>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="index.html" class="hover:text-secondary transition-colors">Home</a></li>
+          <li><a href="about.html" class="hover:text-secondary transition-colors">About Us</a></li>
+          <li><a href="services.html" class="hover:text-secondary transition-colors">Services</a></li>
+          <li><a href="contact.html" class="text-secondary">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Contact</h4>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li class="flex items-center gap-2"><i class="fa fa-phone text-secondary w-4"></i> +91 98765 43210</li>
+          <li class="flex items-center gap-2"><i class="fa fa-envelope text-secondary w-4"></i> info@maadarsh.com</li>
+          <li class="flex items-start gap-2"><i class="fa fa-location-dot text-secondary w-4 mt-0.5"></i> Vadodara, Gujarat, India</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-500">
+      <p>© 2026 MAA AADARSH. All rights reserved.</p>
+      <p>Designed with <i class="fa fa-heart text-secondary text-xs"></i> in India</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ BACK TO TOP ══ -->
+<button id="back-to-top" aria-label="Back to top">
+  <i class="fa fa-arrow-up text-sm"></i>
+</button>
+
+<!-- ══ TOAST ══ -->
+<div id="toast"><i class="fa fa-check-circle mr-2 text-secondary"></i> Message sent! We'll reply within 24 hours.</div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ once: true, duration: 700, offset: 60 });
+
+/* ── Mobile menu ── */
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+const bar1 = document.getElementById('bar1');
+const bar2 = document.getElementById('bar2');
+const bar3 = document.getElementById('bar3');
+let menuOpen = false;
+menuToggle.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.classList.toggle('open', menuOpen);
+  bar1.style.transform = menuOpen ? 'translateY(8px) rotate(45deg)' : '';
+  bar2.style.opacity   = menuOpen ? '0' : '1';
+  bar3.style.transform = menuOpen ? 'translateY(-8px) rotate(-45deg)' : '';
+});
+
+/* ── Back to top ── */
+const backToTop = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('show', window.scrollY > 400);
+});
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ── Toast helper ── */
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ── Form validation & submit ── */
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  let valid = true;
+
+  const fields = [
+    { id: 'f-name',  check: v => v.trim().length >= 2 },
+    { id: 'f-phone', check: v => /^[\d\s\+\-]{7,15}$/.test(v.trim()) },
+    { id: 'f-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+    { id: 'f-msg',   check: v => v.trim().length >= 10 },
+  ];
+
+  fields.forEach(({ id, check }) => {
+    const el  = document.getElementById(id);
+    const err = el.nextElementSibling;
+    if (!check(el.value)) {
+      el.style.borderColor = '#ef4444';
+      el.style.boxShadow   = '0 0 0 3px rgba(239,68,68,0.12)';
+      if (err) err.classList.remove('hidden');
+      valid = false;
+    } else {
+      el.style.borderColor = '#22c55e';
+      el.style.boxShadow   = '0 0 0 3px rgba(34,197,94,0.12)';
+      if (err) err.classList.add('hidden');
+    }
+  });
+
+  if (!valid) return;
+
+  /* Simulate send */
+  const btn     = document.querySelector('.submit-btn');
+  const btnText = document.getElementById('btn-text');
+  btn.disabled  = true;
+  btnText.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> Sending…';
+
+  setTimeout(() => {
+    btn.disabled  = false;
+    btnText.innerHTML = '<i class="fa fa-paper-plane mr-2"></i> Send Message';
+    this.reset();
+    /* reset border colours */
+    fields.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      el.style.borderColor = '';
+      el.style.boxShadow   = '';
+    });
+    showToast();
+  }, 1600);
+});
+
+/* ── Live field validation on blur ── */
+['f-name','f-phone','f-email','f-msg'].forEach(id => {
+  document.getElementById(id).addEventListener('blur', function() {
+    if (this.value.trim()) {
+      this.style.borderColor = '#D4AF37';
+      this.style.boxShadow   = '0 0 0 3px rgba(212,175,55,0.15)';
+    }
+  });
+  document.getElementById(id).addEventListener('input', function() {
+    this.style.borderColor = '';
+    this.style.boxShadow   = '';
+    const err = this.nextElementSibling;
+    if (err) err.classList.add('hidden');
+  });
+});
+</script>
+</body>
+</html>
